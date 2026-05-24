@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Student Grade System</title>
+
+<style>
+body{
+  font-family: Arial;
+  background: linear-gradient(to right,#0f4c81,#1e88e5);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+  padding:20px;
+}
+
+.container{
+  background:white;
+  width:600px;
+  padding:25px;
+  border-radius:15px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.2);
+}
+
+h1{
+  text-align:center;
+  color:#0f4c81;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.input-box label{
+  font-weight:bold;
+  font-size:14px;
+}
+
+input{
+  width:100%;
+  padding:8px;
+  border-radius:6px;
+  border:1px solid #ccc;
+}
+
+button{
+  width:100%;
+  margin-top:15px;
+  padding:12px;
+  background:#0f4c81;
+  color:white;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+button:hover{
+  background:#1565c0;
+}
+
+.result{
+  margin-top:15px;
+  background:#f4f9ff;
+  padding:15px;
+  border-radius:10px;
+  display:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Arday Grade System</h1>
+
+<div class="grid">
+
+<div class="input-box"><label>Somali</label><input id="somali" type="number"></div>
+<div class="input-box"><label>Arabic</label><input id="arabic" type="number"></div>
+
+<div class="input-box"><label>Tarbiya</label><input id="tarbiya" type="number"></div>
+<div class="input-box"><label>Chemistry</label><input id="chemistry" type="number"></div>
+
+<div class="input-box"><label>Biology</label><input id="biology" type="number"></div>
+<div class="input-box"><label>History</label><input id="history" type="number"></div>
+
+<div class="input-box"><label>Geography</label><input id="geography" type="number"></div>
+<div class="input-box"><label>Math</label><input id="math" type="number"></div>
+
+<div class="input-box"><label>Physics</label><input id="physics" type="number"></div>
+<div class="input-box"><label>English</label><input id="english" type="number"></div>
+
+</div>
+
+<button onclick="calculate()">Calculate</button>
+
+<div class="result" id="result">
+<p id="total"></p>
+<p id="avg"></p>
+<p id="gpa"></p>
+<p id="grade"></p>
+</div>
+
+</div>
+
+<script>
+function getVal(id){
+  let val = document.getElementById(id).value;
+  if(val === "") return 0;   // FIX NaN problem
+  return Number(val);
+}
+
+function calculate(){
+
+let subjects = [
+getVal("somali"),
+getVal("arabic"),
+getVal("tarbiya"),
+getVal("chemistry"),
+getVal("biology"),
+getVal("history"),
+getVal("geography"),
+getVal("math"),
+getVal("physics"),
+getVal("english")
+];
+
+// validation
+for(let i=0;i<subjects.length;i++){
+if(subjects[i] < 0 || subjects[i] > 100){
+alert("0 ilaa 100 kaliya geli");
+return;
+}
+}
+
+let total = subjects.reduce((a,b)=>a+b,0);
+let average = (total / 1000) * 100;
+let gpa = (average / 25).toFixed(2);
+
+let grade = "";
+
+if(average >= 90) grade = "A+";
+else if(average >= 85) grade = "A";
+else if(average >= 80) grade = "A-";
+else if(average >= 70) grade = "B";
+else if(average >= 60) grade = "C";
+else if(average >= 50) grade = "D";
+else grade = "F";
+
+document.getElementById("total").innerText = "Total: " + total + " / 1000";
+document.getElementById("avg").innerText = "Average: " + average.toFixed(2) + "%";
+document.getElementById("gpa").innerText = "GPA: " + gpa;
+document.getElementById("grade").innerText = "Grade: " + grade;
+
+document.getElementById("result").style.display = "block";
+}
+</script>
+
+</body>
+</html>
